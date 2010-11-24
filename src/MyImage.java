@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -24,17 +24,32 @@ public class MyImage {
 		isolaCorLaranja(captchaImg);
 		Coordenada pontoLarajna = null;
 
-		List<BufferedImage> simbolos = new LinkedList<BufferedImage>();
+		List<BufferedImage> simbolos = new ArrayList<BufferedImage>();
 
-		//TODO eh presiso verificar se existe o caracter 'i' ou 'j'
-
+		while(verificaIouJ(captchaImg));
+		
 		while((pontoLarajna = getNextCoordenadaLaranja(captchaImg)) != null){
 			Dimensao nextDimensao = getNextDimensao(captchaImg, pontoLarajna);
 			BufferedImage simboloRecortado = recortaImagemBW(captchaImg, nextDimensao);
+			
 			simbolos.add(simboloRecortado);
 		}
 
 		return simbolos;
+	}
+
+	private static boolean verificaIouJ(BufferedImage img) {
+		for(int x = 0; x < img.getWidth()-2; x++){
+			for(int y = 0; y < img.getHeight()-2; y++){
+				if(img.getRGB(x, y) == LARANJA && img.getRGB(x+1, y) == LARANJA && img.getRGB(x+2, y) == LARANJA &&
+						img.getRGB(x, y+1) != LARANJA && img.getRGB(x+1, y+1) != LARANJA && img.getRGB(x+2, y+1) != LARANJA &&
+						img.getRGB(x, y+2) == LARANJA && img.getRGB(x+1, y+2) == LARANJA && img.getRGB(x+2, y+2) == LARANJA){
+					img.setRGB(x+1, y+1, LARANJA);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	private static void isolaCorLaranja(BufferedImage img) {
@@ -89,7 +104,7 @@ public class MyImage {
 			}
 		}
 
-		return resize(imagemRecortada, LARGURA_SIMBOLO, ALTURA_SIMBOLO);
+		return imagemRecortada;
 
 	}
 
@@ -162,15 +177,15 @@ public class MyImage {
 		g.drawImage(image, 0, 0, width, height, null);
 		g.dispose();
 		return resizedImage;
-	} 
+	}
 
 	public static void main(String[] args) throws IOException {
-		File captcha2 = new File("treinamento" + File.separator + "captcha1.jpg");
+		File captcha2 = new File("treinamento" + File.separator + "captchas" + File.separator + "captcha2.jpg");
 		BufferedImage imageImage = ImageIO.read(captcha2);
 		List<BufferedImage> simbolos = MyImage.getSimbolos(imageImage);
 		int i = 1;
 		for (BufferedImage simbolo : simbolos) {
-			ImageIO.write(simbolo, "png", new File("treinamento" + File.separator + "saida" + i+ ".png"));
+			ImageIO.write(simbolo, "png", new File("treinamento" + File.separator + "caracteres" + File.separator + "saida" + i+ ".png"));
 			i++;
 		}
 
