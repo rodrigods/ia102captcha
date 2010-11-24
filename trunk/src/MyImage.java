@@ -26,7 +26,7 @@ public class MyImage {
 
 		List<BufferedImage> simbolos = new LinkedList<BufferedImage>();
 
-		//TODO eh presiso verificar se existe o caracter 'i'
+		//TODO eh presiso verificar se existe o caracter 'i' ou 'j'
 
 		while((pontoLarajna = getNextCoordenadaLaranja(captchaImg)) != null){
 			Dimensao nextDimensao = getNextDimensao(captchaImg, pontoLarajna);
