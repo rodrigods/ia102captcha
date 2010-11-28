@@ -31,8 +31,8 @@ public class MyImage {
 		while((pontoLarajna = getNextCoordenadaLaranja(captchaImg)) != null){
 			Dimensao nextDimensao = getNextDimensao(captchaImg, pontoLarajna);
 			BufferedImage simboloRecortado = recortaImagemBW(captchaImg, nextDimensao);
-			
-			simbolos.add(simboloRecortado);
+			BufferedImage resized = resize(simboloRecortado, LARGURA_SIMBOLO, ALTURA_SIMBOLO);
+			simbolos.add(resized);
 		}
 
 		return simbolos;
@@ -180,6 +180,13 @@ public class MyImage {
 	}
 
 	public static void main(String[] args) throws IOException {
+		File captchasdir = new File("treinamento" + File.separator + "captchas");
+		File[] captchasFile = captchasdir.listFiles();
+		
+		for(File captchaFile: captchasFile){
+			
+		}
+		
 		File captcha2 = new File("treinamento" + File.separator + "captchas" + File.separator + "captcha2.jpg");
 		BufferedImage imageImage = ImageIO.read(captcha2);
 		List<BufferedImage> simbolos = MyImage.getSimbolos(imageImage);
