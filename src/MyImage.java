@@ -88,13 +88,13 @@ public class MyImage {
 	private static BufferedImage recortaImagemBW(BufferedImage imagem, Dimensao dimensao) {
 		int type = imagem.getType() == 0? BufferedImage.TYPE_INT_ARGB : imagem.getType();
 
-		int largura = dimensao.getInferiorDireito().x - dimensao.getSuperiorEquesrdo().x + 1;
-		int altura = dimensao.getInferiorDireito().y - dimensao.getSuperiorEquesrdo().y + 1;
+		int largura = dimensao.getInferiorDireito().x - dimensao.getSuperiorEsquerdo().x + 1;
+		int altura = dimensao.getInferiorDireito().y - dimensao.getSuperiorEsquerdo().y + 1;
 
 		BufferedImage imagemRecortada = new BufferedImage(largura, altura, type);
 
-		int x1 = dimensao.getSuperiorEquesrdo().x;
-		int y1 = dimensao.getSuperiorEquesrdo().y;
+		int x1 = dimensao.getSuperiorEsquerdo().x;
+		int y1 = dimensao.getSuperiorEsquerdo().y;
 		int x2 = dimensao.getInferiorDireito().x;
 		int y2 = dimensao.getInferiorDireito().y;
 
@@ -115,13 +115,13 @@ public class MyImage {
 		melhorY2 = pontoInicial.y;
 		buscaDimensoes(img, pontoInicial.y, pontoInicial.x, Color.BLACK.getRGB(), Color.GRAY.getRGB());
 		Dimensao d = new Dimensao();
-		d.setSuperiorEquesrdo(new Coordenada(melhorX1, melhorY1));
+		d.setSuperiorEsquerdo(new Coordenada(melhorX1, melhorY1));
 		d.setInferiorDireito(new Coordenada(melhorX2, melhorY2));
 		return d;
 	}
 
 	/**
-	 * Busca e seta em variaveis globais o valor dos pontos que definem o quadro de um caractere que são
+	 * Busca e seta em variaveis globais o valor dos pontos que definem o quadro de um caractere que sï¿½o
 	 * da cor oldColor.
 	 * 
 	 * @param img
@@ -212,7 +212,7 @@ class Coordenada {
 
 class Dimensao {
 
-	private Coordenada superiorEquesrdo;
+	private Coordenada superiorEsquerdo;
 	private Coordenada inferiorDireito;
 
 	public Dimensao() {
@@ -220,15 +220,15 @@ class Dimensao {
 	}
 
 	public int getArea() {
-		return Math.abs(getInferiorDireito().y - getSuperiorEquesrdo().y) * Math.abs(getInferiorDireito().x - getSuperiorEquesrdo().x);
+		return Math.abs(getInferiorDireito().y - getSuperiorEsquerdo().y) * Math.abs(getInferiorDireito().x - getSuperiorEsquerdo().x);
 	}
 
-	public void setSuperiorEquesrdo(Coordenada superiorEquesrdo) {
-		this.superiorEquesrdo = superiorEquesrdo;
+	public void setSuperiorEsquerdo(Coordenada superiorEsquerdo) {
+		this.superiorEsquerdo = superiorEsquerdo;
 	}
 
-	public Coordenada getSuperiorEquesrdo() {
-		return superiorEquesrdo;
+	public Coordenada getSuperiorEsquerdo() {
+		return superiorEsquerdo;
 	}
 
 	public void setInferiorDireito(Coordenada inferiorDireito) {
@@ -240,7 +240,7 @@ class Dimensao {
 	}
 
 	public String toString() {
-		return superiorEquesrdo.toString() + " " + inferiorDireito.toString();
+		return superiorEsquerdo.toString() + " " + inferiorDireito.toString();
 	}
 
 }
