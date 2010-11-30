@@ -179,22 +179,26 @@ public class MyImage {
 		return resizedImage;
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		File captchasdir = new File("treinamento" + File.separator + "captchas");
 		File[] captchasFile = captchasdir.listFiles();
 		
+		int i = 1;
 		for(File captchaFile: captchasFile){
-			
+			try {
+				BufferedImage imageImage = ImageIO.read(captchaFile);
+
+				List<BufferedImage> simbolos = MyImage.getSimbolos(imageImage);
+				for (BufferedImage simbolo : simbolos) {
+					ImageIO.write(simbolo, "png", new File("treinamento" + File.separator + "caracteres" + File.separator + "saida" + i+ ".png"));
+					i++;
+				}
+			} catch (IOException e) {
+				// do nothing
+			}
 		}
 		
-		File captcha2 = new File("treinamento" + File.separator + "captchas" + File.separator + "captcha2.jpg");
-		BufferedImage imageImage = ImageIO.read(captcha2);
-		List<BufferedImage> simbolos = MyImage.getSimbolos(imageImage);
-		int i = 1;
-		for (BufferedImage simbolo : simbolos) {
-			ImageIO.write(simbolo, "png", new File("treinamento" + File.separator + "caracteres" + File.separator + "saida" + i+ ".png"));
-			i++;
-		}
+//		File captcha2 = new File("treinamento" + File.separator + "captchas" + File.separator + "captcha2.jpg");
 
 	}
 }
