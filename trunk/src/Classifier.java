@@ -63,7 +63,7 @@ public class Classifier {
 	
 	
 	private static boolean validateFileName(File file) {
-		return !file.getName().startsWith(".");
+		return Character.isLetterOrDigit(file.getName().charAt(0));
 	}
 
 
