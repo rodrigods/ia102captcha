@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="734" height="451">
+	<mx:Script>
+		<![CDATA[
+			import dbcclean.remoteObjects.Column;
+			import dbcclean.remoteObjects.ConnectionSqlServer;
+			
+			import flash.sampler.getInvocationCount;
+			
+			import mx.binding.utils.BindingUtils;
+			import mx.charts.chartClasses.DualStyleObject;
+			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
+			import mx.controls.Alert;
+			import mx.controls.CheckBox;
+			import mx.controls.TextArea;
+			import mx.events.CloseEvent;
+			import mx.events.DataGridEvent;
+			import mx.events.DragEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.managers.DragManager;
+			import mx.managers.PopUpManager;
+			import mx.rpc.Fault;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.remoting.RemoteObject;
+			import mx.utils.ObjectUtil;
+			
+			private var numImage: int = 1;
+			public var imageURL: String;
+			[Bindable]
+			public var dynamicInstanceColumns: ArrayCollection  = new ArrayCollection();
+			public var instanceItemEdited : Boolean = false;
+			[Bindable]
+			private var dataGridInstContextMenu: ContextMenu;
+			[Bindable]
+			public var collectionMeanColumnChart:ArrayCollection = new ArrayCollection();
+//			[
+//				{RestrictionName:"Constraint 1", QuantVioletedRows:4},
+//				{RestrictionName:"Constraint 2", QuantVioletedRows:20},
+//				{RestrictionName:"Mean", QuantVioletedRows:18},
+//			]);
+			
+		
+
+	
+		
+	
+		
+
+			protected function btn_iniciar_clickHandler(event:MouseEvent):void
+			{
+				currentState="state_captcha";
+				imageURL = "captcha1.jpg";
+		
+
+			}
+
+
+			protected function btn_next_clickHandler(event:MouseEvent):void
+			{	
+				numImage++;
+				lbl_captcha.text = "";
+				imageURL = "captcha" + numImage+".jpg";
+				img0.source = "teste/captchas/" +imageURL;
+			
+					
+	
+			}
+
+
+			protected function btn_gerar_clickHandler(event:MouseEvent):void
+			{
+				classifier.guessCaptcha(imageURL);
+			}
+			
+			protected function onResultGuessCaptcha(event:ResultEvent):void
+			{
+				lbl_captcha.text = event.result as String;
+			}
+
+			
+			protected function onFaultHandler(event:FaultEvent):void
+			{
+				Alert.show(event.toString());
+			}
+
+
+		]]>
+	</mx:Script>
+
+	<mx:RemoteObject id="classifier" destination="Classifier">
+		<mx:method name="guessCaptcha" result="onResultGuessCaptcha(event);" fault="onFaultHandler(event);"/>
+	</mx:RemoteObject>
+		<mx:states>
+				<mx:State name="state_captcha">
+						<mx:RemoveChild target="{btn_iniciar}"/>
+						<mx:RemoveChild target="{textarea1}"/>
+						<mx:RemoveChild target="{panel1}"/>
+						<mx:AddChild position="lastChild">
+								<mx:Panel x="0" y="0" width="734" height="451" layout="absolute" horizontalAlign="left" verticalAlign="top">
+										<mx:Image x="3" y="85" width="176" height="72" id="img0" source='teste/captchas/captcha1.jpg'/>
+										<mx:Button x="33" y="188" label="gerar" id="btn_gerar" click="btn_gerar_clickHandler(event)"/>
+										<mx:Label x="238" y="159" width="74" id="lbl_captcha"/>
+										<mx:Button x="484" y="188" label="next" id="btn_next" click="btn_next_clickHandler(event)"/>
+								</mx:Panel>
+						</mx:AddChild>
+				</mx:State>
+		</mx:states>
+	<mx:Panel title="Captchas da OI"  paddingBottom="10" paddingLeft="10" 
+			  paddingRight="10" paddingTop="10" height="451" width="734" x="0" y="0"  
+			  id="panel1">
+		<mx:TextArea editable="false" text="Aplicação com intuito de detectar os caracteres do site da OI" width="189" height="121" id="textarea1"/>
+		<mx:Button label="Iniciar" id="btn_iniciar" click="btn_iniciar_clickHandler(event)"/>
+	</mx:Panel>
+</mx:Application>
+

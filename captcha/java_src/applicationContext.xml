@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+    
+        <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+        
+    <bean id="restrictionDao" class="dbclean.dao.persistence.RestrictionDao">
+        <property name="dataSource" ref="dataSourceServer"/>
+    </bean>
+    
+    <bean id="serverManager" class="dbclean.dao.persistence.ServerManager">
+        <property name="dataSource" ref="dataSourceServer"/>
+    </bean>
+    
+    <bean id="violationFinder" class="dbclean.dao.persistence.ViolationFinder">
+        <property name="dataSource" ref="dataSourceServer"/>
+    </bean>
+    
+    <!-- 
+    <bean id="serverManager" class="dbclean.dao.persistence.ServerManagerMock"/>
+         -->
+    
+    
+    <!--bean id="sqlServerManager" class="dbclean.dao.manager.sqlserverManager.SqlServerManager">
+    </bean-->
+    
+    <bean id="sqlServerManager" class="dbclean.dao.manager.sqlserverManager.SqlServerManager"/>
+    
+  <bean id="dataSourceServerMentira"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+    	<property name="url"
+            value="jdbc:sqlserver://localhost:4436;databaseName=sad" />   
+            
+       <!--  <property name="url" value="jdbc:sqlserver://localhost:5000;databaseName=dbclean" />-->
+        <property name="url"
+            value="jdbc:sqlserver://150.165.75.171:1433;databaseName=dbclean" />
+        <property name="username" value="dbclean_projeto1" />
+        <property name="password" value="projeto1" />
+    </bean>
+    
+  <bean id="dataSourceServer"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+    	<property name="url"
+            value="jdbc:sqlserver://localhost:4436;databaseName=banco_de_testes" />   
+            
+       <!--  <property name="url" value="jdbc:sqlserver://localhost:5000;databaseName=dbclean" />-->
+        <!-- property name="url"
+            value="jdbc:sqlserver://150.165.75.171:1433;databaseName=dbclean" / -->
+        <property name="username" value="sa" />
+        <property name="password" value="senhaandryw" />
+    </bean>
+    
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSourceServer"></property>
+    </bean>
+
+<tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+</beans>
