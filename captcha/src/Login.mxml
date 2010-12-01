@@ -3,8 +3,6 @@
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="734" height="451">
 	<mx:Script>
 		<![CDATA[
-			import dbcclean.remoteObjects.Column;
-			import dbcclean.remoteObjects.ConnectionSqlServer;
 			
 			import flash.sampler.getInvocationCount;
 			
@@ -103,7 +101,7 @@
 								<mx:Panel x="0" y="0" width="734" height="451" layout="absolute" horizontalAlign="left" verticalAlign="top">
 										<mx:Image x="3" y="85" width="176" height="72" id="img0" source='teste/captchas/captcha1.jpg'/>
 										<mx:Button x="33" y="188" label="gerar" id="btn_gerar" click="btn_gerar_clickHandler(event)"/>
-										<mx:Label x="238" y="159" width="74" id="lbl_captcha"/>
+										<mx:Label x="234" y="121" width="88" id="lbl_captcha" height="32" fontSize="16" fontWeight="bold" fontFamily="Arial"/>
 										<mx:Button x="484" y="188" label="next" id="btn_next" click="btn_next_clickHandler(event)"/>
 								</mx:Panel>
 						</mx:AddChild>
@@ -112,7 +110,7 @@
 	<mx:Panel title="Captchas da OI"  paddingBottom="10" paddingLeft="10" 
 			  paddingRight="10" paddingTop="10" height="451" width="734" x="0" y="0"  
 			  id="panel1">
-		<mx:TextArea editable="false" text="Aplicação com intuito de detectar os caracteres do site da OI" width="189" height="121" id="textarea1"/>
+		<mx:TextArea editable="false" text="Aplicação com intuito de detectar os caracteres dos captchas do site da OI" width="189" height="121" id="textarea1"/>
 		<mx:Button label="Iniciar" id="btn_iniciar" click="btn_iniciar_clickHandler(event)"/>
 	</mx:Panel>
 </mx:Application>
